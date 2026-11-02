@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aether Luxe | Enterprise 3D WebGL Showcase Architecture</title>
+  <title>Aether Luxe | High-End 3D WebGL Showcase</title>
   <style>
     :root {
       --bg-deep: #020617;
       --bg-surface: #0f172a;
-      --bg-card: #1e293b;
       --accent-cyan: #38bdf8;
-      --accent-glow: rgba(56, 189, 248, 0.3);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --border-subtle: rgba(255, 255, 255, 0.08);
@@ -29,36 +27,16 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
     }
 
-    /* Ambient background radial lighting */
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1200px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.07) 0%, rgba(2, 6, 23, 0) 70%);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Professional Navigation Header */
     header {
       background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-subtle);
       padding: 22px 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
     }
 
     .brand-logo {
@@ -66,12 +44,9 @@
       letter-spacing: 3px;
       font-size: 18px;
       text-transform: uppercase;
-      color: var(--text-main);
     }
 
-    .brand-logo span {
-      color: var(--accent-cyan);
-    }
+    .brand-logo span { color: var(--accent-cyan); }
 
     .nav-links {
       display: flex;
@@ -81,49 +56,34 @@
       font-weight: 500;
     }
 
-    .nav-links span {
-      cursor: pointer;
-      transition: color 0.2s ease;
-    }
-
-    .nav-links span:hover {
-      color: var(--accent-cyan);
-    }
-
-    /* Main Grid Layout Container */
     .main-wrapper {
       max-width: 1300px;
-      margin: 60px auto;
+      margin: 50px auto;
       padding: 0 40px;
       display: grid;
       grid-template-columns: 1.25fr 1fr;
-      gap: 60px;
+      gap: 50px;
       align-items: center;
       flex: 1;
-      position: relative;
-      z-index: 1;
       width: 100%;
     }
 
-    /* Explicitly Styled 3D Stage Container */
     #3d-product-stage {
       width: 100%;
-      height: 520px;
+      height: 500px;
       background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
       border-radius: 20px;
       border: 1px solid var(--border-subtle);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
       position: relative;
       overflow: hidden;
     }
 
-    /* E-Commerce Product Information Card */
     .product-info {
       background: var(--bg-surface);
       padding: 45px;
       border-radius: 20px;
       border: 1px solid var(--border-subtle);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
     .badge {
@@ -140,26 +100,9 @@
       border: 1px solid rgba(56, 189, 248, 0.2);
     }
 
-    h1 {
-      font-size: 38px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
-    }
-
-    .price-tag {
-      font-size: 30px;
-      font-weight: 700;
-      color: var(--accent-cyan);
-      margin-bottom: 24px;
-    }
-
-    .description {
-      color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.8;
-      margin-bottom: 30px;
-    }
+    h1 { font-size: 38px; font-weight: 800; margin-bottom: 12px; }
+    .price-tag { font-size: 30px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 24px; }
+    .description { color: var(--text-muted); font-size: 15px; line-height: 1.8; margin-bottom: 30px; }
 
     .features-list {
       list-style: none;
@@ -177,11 +120,7 @@
       gap: 12px;
     }
 
-    .features-list li::before {
-      content: "✦";
-      color: var(--accent-cyan);
-      font-size: 12px;
-    }
+    .features-list li::before { content: "✦"; color: var(--accent-cyan); }
 
     .cta-button {
       width: 100%;
@@ -193,28 +132,12 @@
       font-weight: 700;
       border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 10px 25px -5px var(--accent-glow);
-      transition: transform 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.3);
     }
 
-    .cta-button:hover {
-      opacity: 0.95;
-      transform: translateY(-2px);
-    }
-
-    /* Responsive Breakpoint for Mobile Devices */
     @media (max-width: 1024px) {
-      .main-wrapper {
-        grid-template-columns: 1fr;
-        margin: 30px auto;
-        padding: 0 20px;
-      }
-      header {
-        padding: 20px;
-      }
-      #3d-product-stage {
-        height: 400px;
-      }
+      .main-wrapper { grid-template-columns: 1fr; margin: 20px auto; padding: 0 20px; }
+      #3d-product-stage { height: 380px; }
     }
   </style>
 </head>
@@ -225,35 +148,114 @@
     <div class="nav-links">
       <span>Collection</span>
       <span>3D Studio</span>
-      <span>Enterprise</span>
     </div>
   </header>
 
   <main class="main-wrapper">
-    <!-- WebGL Viewer Mounting Element -->
     <div id="3d-product-stage"></div>
 
-    <!-- Product Details Content -->
     <section class="product-info">
       <div class="badge">Next-Gen WebGL Shaders</div>
       <h1>Celestial Precision Ring</h1>
       <div class="price-tag">$450.00</div>
       <p class="description">
-        Rendered live in your browser using advanced physical metalness shaders, ACES cinematic tone mapping, and real-time interactive lighting physics.
+        Rendered live in your browser using physically based metalness shaders, ACES cinematic tone mapping, and real-time interactive lighting.
       </p>
 
       <ul class="features-list">
         <li>Real-time 360-degree interactive orbital control</li>
         <li>Physically based metallic clearcoat reflections</li>
-        <li>Zero-latency Cloudflare Edge CDN delivery</li>
+        <li>Sub-second Cloudflare Edge CDN delivery</li>
       </ul>
 
       <button class="cta-button">Secure Your Edition</button>
     </section>
   </main>
 
-  <!-- Core Three.js Engine and Custom Embed Script -->
+  <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="./embed.js"></script>
+
+  <!-- Inline 3D Engine Initialization -->
+  <script>
+    (function() {
+      function initEngine() {
+        const stage = document.getElementById('3d-product-stage');
+        if (!stage || typeof THREE === 'undefined') return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, stage.clientWidth / stage.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 4.2);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(stage.clientWidth, stage.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.25;
+        stage.appendChild(renderer.domElement);
+
+        const geometry = new THREE.TorusKnotGeometry(0.68, 0.22, 256, 48);
+        const material = new THREE.MeshPhysicalMaterial({
+          color: 0x38bdf8,
+          metalness: 0.95,
+          roughness: 0.1,
+          clearcoat: 1.0,
+          clearcoatRoughness: 0.05,
+          reflectivity: 1.0
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+        keyLight.position.set(5, 5, 4);
+        scene.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+        fillLight.position.set(-5, -2, 2);
+        scene.add(fillLight);
+
+        let isDragging = false;
+        let prevMouse = { x: 0, y: 0 };
+
+        stage.addEventListener('mousedown', (e) => {
+          isDragging = true;
+          prevMouse = { x: e.clientX, y: e.clientY };
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+
+        stage.addEventListener('mousemove', (e) => {
+          if (!isDragging) return;
+          const deltaX = e.clientX - prevMouse.x;
+          const deltaY = e.clientY - prevMouse.y;
+          mesh.rotation.y += deltaX * 0.01;
+          mesh.rotation.x += deltaY * 0.01;
+          prevMouse = { x: e.clientX, y: e.clientY };
+        });
+
+        function animate() {
+          requestAnimationFrame(animate);
+          if (!isDragging) {
+            mesh.rotation.y += 0.005;
+            mesh.rotation.x += 0.002;
+          }
+          renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+          camera.aspect = stage.clientWidth / stage.clientHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(stage.clientWidth, stage.clientHeight);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEngine);
+      } else {
+        initEngine();
+      }
+    })();
+  </script>
 </body>
 </html>
