@@ -3,92 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aether Luxe | 3D Showcase</title>
+  <title>Aether Luxe | High-End 3D WebGL Showcases</title>
   <style>
     :root {
       --bg-primary: #030712;
       --bg-surface: #0f172a;
+      --bg-card: #1e293b;
       --accent: #38bdf8;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-primary);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
+
+    /* Navigation Bar */
     header {
-      background: rgba(15, 23, 42, 0.75);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 20px 40px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 20px 50px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    .logo { font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+
+    .logo {
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      font-size: 18px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-links span { cursor: pointer; transition: color 0.2s; }
+    .nav-links span:hover { color: var(--accent); }
+
+    /* Main Showcase Section */
     .main-wrapper {
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 50px auto;
       padding: 0 30px;
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.25fr 1fr;
       gap: 50px;
       align-items: center;
       flex: 1;
     }
+
     #3d-product-stage {
       width: 100%;
-      height: 480px;
-      background: #020617;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      height: 500px;
+      background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), inset 0 0 50px rgba(0, 0, 0, 0.8);
       position: relative;
       overflow: hidden;
     }
+
     .product-info {
       background: var(--bg-surface);
       padding: 40px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
-    h1 { font-size: 34px; font-weight: 800; margin-bottom: 10px; }
-    .price { font-size: 26px; font-weight: 700; color: var(--accent); margin-bottom: 20px; }
-    .desc { color: var(--text-muted); font-size: 15px; line-height: 1.6; margin-bottom: 30px; }
-    .btn {
+
+    .badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .price-tag {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 22px;
+    }
+
+    .description {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .features-list {
+      list-style: none;
+      margin-bottom: 30px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+    }
+
+    .features-list li {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .features-list li::before {
+      content: "✦";
+      color: var(--accent);
+    }
+
+    .cta-button {
       width: 100%;
       background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
       color: #fff;
       border: none;
-      padding: 16px;
+      padding: 18px;
       font-size: 16px;
       font-weight: 700;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
+      box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+      transition: transform 0.2s, opacity 0.2s;
     }
-    @media (max-width: 900px) { .main-wrapper { grid-template-columns: 1fr; } }
+
+    .cta-button:hover {
+      opacity: 0.95;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 900px) {
+      .main-wrapper { grid-template-columns: 1fr; margin: 20px auto; }
+      header { padding: 20px; }
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo">Aether Luxe</div>
+    <div class="logo">Aether <span>Luxe</span></div>
+    <div class="nav-links">
+      <span>Collection</span>
+      <span>3D Studio</span>
+      <span>Enterprise</span>
+    </div>
   </header>
 
-  <div class="main-wrapper">
+  <main class="main-wrapper">
+    <!-- Live WebGL 3D Viewer Stage -->
     <div id="3d-product-stage"></div>
 
+    <!-- Product E-Commerce Card -->
     <div class="product-info">
+      <div class="badge">Next-Gen WebGL Shaders</div>
       <h1>Celestial Precision Ring</h1>
-      <div class="price">$450.00</div>
-      <p class="desc">Featuring high-gloss physical material shaders and real-time studio lighting.</p>
-      <button class="btn">Add to Cart</button>
-    </div>
-  </div>
+      <div class="price-tag">$450.00</div>
+      <p class="description">
+        Rendered live in your browser using advanced physical metalness shaders, ACES cinematic tone mapping, and real-time interactive lighting physics.
+      </p>
 
+      <ul class="features-list">
+        <li>Real-time 360-degree interactive orbital control</li>
+        <li>Physically based metallic clearcoat reflections</li>
+        <li>Sub-second Cloudflare Edge CDN delivery</li>
+      </ul>
+
+      <button class="cta-button">Secure Your Edition</button>
+    </div>
+  </main>
+
+  <!-- Dependencies & Engine Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="./embed.js"></script>
 </body>
