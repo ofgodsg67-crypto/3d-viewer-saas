@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aether Luxe | High-End 3D WebGL Showcase</title>
+  <style>
+    :root {
+      --bg-deep: #020617;
+      --bg-surface: #0f172a;
+      --accent-cyan: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 22px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      font-weight: 900;
+      letter-spacing: 3px;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    .brand-logo span { color: var(--accent-cyan); }
+
+    .nav-links {
+      display: flex;
+      gap: 35px;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .main-wrapper {
+      max-width: 1300px;
+      margin: 50px auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 50px;
+      align-items: center;
+      flex: 1;
+      width: 100%;
+    }
+
+    #3d-product-stage {
+      width: 100%;
+      height: 500px;
+      background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+    }
+
+    .product-info {
+      background: var(--bg-surface);
+      padding: 45px;
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent-cyan);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    h1 { font-size: 38px; font-weight: 800; margin-bottom: 12px; }
+    .price-tag { font-size: 30px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 24px; }
+    .description { color: var(--text-muted); font-size: 15px; line-height: 1.8; margin-bottom: 30px; }
+
+    .features-list {
+      list-style: none;
+      margin-bottom: 35px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 24px;
+    }
+
+    .features-list li {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .features-list li::before { content: "✦"; color: var(--accent-cyan); }
+
+    .cta-button {
+      width: 100%;
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      color: #fff;
+      border: none;
+      padding: 18px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.3);
+    }
+
+    @media (max-width: 1024px) {
+      .main-wrapper { grid-template-columns: 1fr; margin: 20px auto; padding: 0 20px; }
+      #3d-product-stage { height: 380px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-logo">Aether <span>Luxe</span></div>
+    <div class="nav-links">
+      <span>Collection</span>
+      <span>3D Studio</span>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <div id="3d-product-stage"></div>
+
+    <section class="product-info">
+      <div class="badge">Next-Gen WebGL Shaders</div>
+      <h1>Celestial Precision Ring</h1>
+      <div class="price-tag">$450.00</div>
+      <p class="description">
+        Rendered live in your browser using physically based metalness shaders, ACES cinematic tone mapping, and real-time interactive lighting.
+      </p>
+
+      <ul class="features-list">
+        <li>Real-time 360-degree interactive orbital control</li>
+        <li>Physically based metallic clearcoat reflections</li>
+        <li>Sub-second Cloudflare Edge CDN delivery</li>
+      </ul>
+
+      <button class="cta-button">Secure Your Edition</button>
+    </section>
+  </main>
+
+  <!-- Three.js Library CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Embedded WebGL 3D Studio Engine Script -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const stage = document.getElementById('3d-product-stage');
+      if (!stage || typeof THREE === 'undefined') return;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(40, stage.clientWidth / stage.clientHeight, 0.1, 1000);
+      camera.position.set(0, 0, 4.2);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(stage.clientWidth, stage.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.25;
+      stage.appendChild(renderer.domElement);
+
+      const geometry = new THREE.TorusKnotGeometry(0.68, 0.22, 256, 48);
+      const material = new THREE.MeshPhysicalMaterial({
+        color: 0x38bdf8,
+        metalness: 0.95,
+        roughness: 0.1,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.05,
+        reflectivity: 1.0
+      });
+      const mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+      const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+      keyLight.position.set(5, 5, 4);
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+      fillLight.position.set(-5, -2, 2);
+      scene.add(fillLight);
+
+      let isDragging = false;
+      let prevMouse = { x: 0, y: 0 };
+
+      stage.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        stage.style.cursor = 'grabbing';
+        prevMouse = { x: e.clientX, y: e.clientY };
+      });
+
+      window.addEventListener('mouseup', () => {
+        isDragging = false;
+        stage.style.cursor = 'grab';
+      });
+
+      stage.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - prevMouse.x;
+        const deltaY = e.clientY - prevMouse.y;
+        mesh.rotation.y += deltaX * 0.01;
+        mesh.rotation.x += deltaY * 0.01;
+        prevMouse = { x: e.clientX, y: e.clientY };
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        if (!isDragging) {
+          mesh.rotation.y += 0.005;
+          mesh.rotation.x += 0.002;
+        }
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        camera.aspect = stage.clientWidth / stage.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(stage.clientWidth, stage.clientHeight);
+      });
+    });
+  </script>
+</body>
+</html>
